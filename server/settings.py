@@ -1,0 +1,16 @@
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_PASSWORD = ''
+
+REDIS_PROXY_KEY = 'proxy'
+IP_BLACKLIST_KEY = 'blacklist'
+
+POOL_SIZE = 10
+
+TOKEN = ''
+
+TEST_URL = 'https://music.163.com/'
+
+PORT = 8000
+
+DOWNLOAD_TIMEOUT = 10
