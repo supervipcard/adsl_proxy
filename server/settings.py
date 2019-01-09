@@ -13,6 +13,6 @@ TEST_URL = 'http://dun.163.com/'
 
 PORT = 8000
 
-DOWNLOAD_TIMEOUT = 3
+DOWNLOAD_TIMEOUT = 5
 
 ISSINGLE = True
