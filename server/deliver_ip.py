@@ -50,7 +50,7 @@ class VerifyHandler(tornado.web.RequestHandler):
     @staticmethod
     def test_proxy(proxy):
         try:
-            response = requests.get(url=TEST_URL, proxies={'https': proxy}, timeout=DOWNLOAD_TIMEOUT)
+            response = requests.get(url=TEST_URL, proxies={'http': proxy, 'https': proxy}, timeout=DOWNLOAD_TIMEOUT)
             if response.status_code == 200:
                 return True
         except:
