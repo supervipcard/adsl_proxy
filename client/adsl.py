@@ -32,8 +32,8 @@ class ADSLProxy(object):
                         return True
             except Exception as e:
                 print(e)
-            cls.change()
             time.sleep(1)
+            cls.change()
 
     @classmethod
     def pre_notify(cls):
@@ -44,8 +44,8 @@ class ADSLProxy(object):
                     return True
             except Exception as e:
                 print(e)
-            cls.change()
             time.sleep(1)
+            cls.change()
 
     @staticmethod
     def restart_proxy():

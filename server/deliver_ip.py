@@ -28,18 +28,18 @@ class VerifyHandler(tornado.web.RequestHandler):
                 redis_client = redis.Redis(connection_pool=redis_pool)
 
                 # 检测IP是否在黑名单中
-                if redis_client.sismember(IP_BLACKLIST_KEY, proxy) == 0:
-                    result = self.test_proxy(proxy)
-                    if result:
-                        redis_client.set(channel, proxy)
-                        logger.info('{channel} {proxy} is available'.format(channel=channel, proxy=proxy))
-                        self.write({'sign': True, 'proxy': proxy, 'msg': 'success'})
-                    else:
-                        logger.warning('{channel} {proxy} is bad'.format(channel=channel, proxy=proxy))
-                        self.write({'sign': False, 'proxy': proxy, 'msg': 'Wrong Proxy'})
+                # if redis_client.sismember(IP_BLACKLIST_KEY, proxy) == 0:
+                result = self.test_proxy(proxy)
+                if result:
+                    redis_client.set(channel, proxy)
+                    logger.info('{channel} {proxy} is available'.format(channel=channel, proxy=proxy))
+                    self.write({'sign': True, 'proxy': proxy, 'msg': 'success'})
                 else:
-                    logger.warning('{channel} {proxy} in blacklist'.format(channel=channel, proxy=proxy))
+                    logger.warning('{channel} {proxy} is bad'.format(channel=channel, proxy=proxy))
                     self.write({'sign': False, 'proxy': proxy, 'msg': 'Wrong Proxy'})
+                # else:
+                #     logger.warning('{channel} {proxy} in blacklist'.format(channel=channel, proxy=proxy))
+                #     self.write({'sign': False, 'proxy': proxy, 'msg': 'Wrong Proxy'})
             else:
                 logger.warning('无效的请求')
                 self.send_error(400)
