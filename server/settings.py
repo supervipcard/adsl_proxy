@@ -13,4 +13,6 @@ TEST_URL = 'https://music.163.com/'
 
 PORT = 8000
 
-DOWNLOAD_TIMEOUT = 10
+DOWNLOAD_TIMEOUT = 3
+
+ISSINGLE = True

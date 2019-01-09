@@ -80,14 +80,14 @@ class NotifyHandler(tornado.web.RequestHandler):
     @run_on_executor
     def extra(self, channel):
         redis_client = redis.Redis(connection_pool=redis_pool)
-
-        while True:
-            keys = redis_client.keys('%s*' % REDIS_PROXY_KEY)
-            if len(keys) == 1 and keys[0].decode('utf-8') == channel:    # 如果只有该通道存在，暂时不删除
-                logger.info('通道{channel} 等待3秒'.format(channel=channel))
-                time.sleep(3)
-            else:
-                break
+        if not ISSINGLE:
+            while True:
+                keys = redis_client.keys('%s*' % REDIS_PROXY_KEY)
+                if len(keys) == 1 and keys[0].decode('utf-8') == channel:    # 如果只有该通道存在，暂时不删除
+                    logger.info('通道{channel} 等待3秒'.format(channel=channel))
+                    time.sleep(3)
+                else:
+                    break
         redis_client.delete(channel)
 
 
