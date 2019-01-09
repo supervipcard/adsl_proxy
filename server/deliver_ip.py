@@ -99,7 +99,7 @@ def make_app():
 
 
 if __name__ == '__main__':
-    assert REDIS_PROXY_KEY not in IP_BLACKLIST_KEY, 'IP_BLACKLIST_KEY name can not contain REDIS_PROXY_KEY name'
+    # assert REDIS_PROXY_KEY not in IP_BLACKLIST_KEY, 'IP_BLACKLIST_KEY name can not contain REDIS_PROXY_KEY name'
 
     logger = logging.getLogger('service')  # 设置一个日志器
     logger.setLevel(logging.INFO)
