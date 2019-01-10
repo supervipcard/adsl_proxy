@@ -5,6 +5,8 @@ import subprocess
 import time
 import json
 from settings import *
+import logging
+import logging.handlers
 
 
 # 动态VPS
@@ -18,7 +20,7 @@ class ADSLProxy(object):
                     return True
             except Exception as e:
                 print(e)
-            time.sleep(1)
+            time.sleep(SLEEP_TIME)
 
     @classmethod
     def send_and_get_ip(cls):
@@ -27,13 +29,13 @@ class ADSLProxy(object):
                 response = requests.post(url=VERIFY_URL, data={'token': TOKEN, 'port': PROXY_P0RT, 'channel': PROXY_CHANNEL}, timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     res = json.loads(response.text)
-                    print(res)
+                    logger.info(str(res))
                     if res['sign']:
                         return True
             except Exception as e:
                 print(e)
             cls.change()
-            time.sleep(1)
+            time.sleep(SLEEP_TIME)
 
     @classmethod
     def pre_notify(cls):
@@ -45,7 +47,7 @@ class ADSLProxy(object):
             except Exception as e:
                 print(e)
             cls.change()
-            time.sleep(1)
+            time.sleep(SLEEP_TIME)
 
     @staticmethod
     def restart_proxy():
@@ -56,23 +58,33 @@ class ADSLProxy(object):
                     return True
             except Exception as e:
                 print(e)
-            time.sleep(1)
+            time.sleep(SLEEP_TIME)
 
 
 def main():
     while True:
+        logger.info('change')
         ADSLProxy.pre_notify()
-        time.sleep(1)
-        print(1)
+        time.sleep(SLEEP_TIME)
+
         ADSLProxy.restart_proxy()
-        time.sleep(1)
-        print(2)
+        time.sleep(SLEEP_TIME)
+
         ADSLProxy.change()
-        time.sleep(1)
-        print(3)
+        time.sleep(SLEEP_TIME)
+
         ADSLProxy.send_and_get_ip()
         time.sleep(INTERVAL)
 
 
 if __name__ == '__main__':
+    logger = logging.getLogger('adsl')  # 设置一个日志器
+    logger.setLevel(logging.INFO)
+
+    formatter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s: %(message)s')
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
     main()
