@@ -1,6 +1,7 @@
 # coding=utf-8
 import re
 import time
+import copy
 import requests
 from requests.exceptions import ConnectionError, ReadTimeout
 from adslproxy.db import RedisClient
@@ -70,6 +71,7 @@ class Sender():
         拨号主进程
         :return: None
         """
+        last_ip = None
         while True:
             print('ADSL Start, Remove Proxy, Please wait')
             try:
@@ -85,9 +87,10 @@ class Sender():
                 print('ADSL Successfully')
                 time.sleep(1)
                 ip = self.get_ip()
-                if ip:
+                if ip and ip != last_ip:
                     print('Now IP', ip)
                     print('Testing Proxy, Please Wait')
+                    last_ip = copy.copy(ip)
                     proxy = 'http://{username}:{password}@{ip}:{port}'.format(username=PROXY_USERNAME, password=PROXY_PASSWORD, ip=ip, port=PROXY_PORT)
                     if self.test_proxy(proxy):
                         print('Valid Proxy')
@@ -97,7 +100,7 @@ class Sender():
                     else:
                         print('Invalid Proxy')
                 else:
-                    print('Get IP Failed, Re Dialing')
+                    print('Get IP Failed Or Repeated, Re Dialing')
                     time.sleep(ADSL_ERROR_CYCLE)
             else:
                 print('ADSL Failed, Please Check')

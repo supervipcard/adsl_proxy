@@ -33,7 +33,7 @@ REDIS_PASSWORD = 'pl1996317'
 REDIS_PORT = 6379
 
 # Redis数据库db
-REDIS_DB = 1
+REDIS_DB = 10
 
 # 代理池键名
 REDIS_KEY = 'adsl'
